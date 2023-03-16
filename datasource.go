@@ -7,8 +7,8 @@ import (
 )
 
 type HealthStatus struct {
-	message string `json:"id,omitempty"`
-	status  string `json:"id,omitempty"`
+	Message string `json:"id,omitempty"`
+	Status  string `json:"id,omitempty"`
 }
 
 // DataSource represents a Grafana data source.
