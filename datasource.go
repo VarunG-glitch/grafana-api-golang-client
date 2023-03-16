@@ -6,6 +6,11 @@ import (
 	"fmt"
 )
 
+type HealthStatus struct {
+	message string `json:"id,omitempty"`
+	status  string `json:"id,omitempty"`
+}
+
 // DataSource represents a Grafana data source.
 type DataSource struct {
 	ID     int64  `json:"id,omitempty"`
@@ -141,8 +146,12 @@ func (c *Client) DeleteDataSourceByName(name string) error {
 }
 
 // CheckDataSourceHealth checks the grafana data source health whose ID is passed.
-func (c *Client) CheckDataSourceHealth(id int64) error {
+func (c *Client) CheckDataSourceHealth(id int64) (*HealthStatus, error) {
 	path := fmt.Sprintf("/api/datasources/%d/health", id)
-
-	return c.request("GET", path, nil, nil, nil)
+	result := &HealthStatus{}
+	err := c.request("GET", path, nil, nil, result)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }
